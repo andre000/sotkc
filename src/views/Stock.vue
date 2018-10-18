@@ -37,7 +37,10 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import stCompany from '@/components/companies/CompanyStock.vue';
-import { TimelineLite } from 'gsap/all';
+import { TimelineLite, CSSPlugin, AttrPlugin } from 'gsap/all';
+
+// eslint-disable-next-line
+const plugins = [CSSPlugin, AttrPlugin];
 
 export default {
   data: () => ({
