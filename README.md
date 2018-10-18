@@ -1,26 +1,45 @@
-# stock-trader
+<p align="center">
+  <img src='src/assets/logo.png' />
+</p>
 
-## Project setup
+## About
+
+This project was made in order to complete an assignment on the course [Vue JS 2 - The Complete Guide](https://www.udemy.com/vuejs-2-the-complete-guide/).
+
+### What it's supposed to do
+
+- Load a list of available stocks
+- Buy and Sell stocks
+- Proceed to the next day
+- Save and Load state
+
+### Dependencies
+- Vue
+- Vue Router
+- Vuex
+- Axios
+- [Vuikit](https://vuikit.js.org/)
+- [IEX Developer Platform API](https://iextrading.com/developer/)
+- [TimelineLite](https://greensock.com/timelinelite)
+
+---
+
+#### Project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+#### Compiles and hot-reloads for development
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+#### Compiles and minifies for production
 ```
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
+#### Lints and fixes files
 ```
 npm run lint
 ```
