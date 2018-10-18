@@ -5,6 +5,7 @@
 ## About
 
 This project was made in order to complete an assignment on the course [Vue JS 2 - The Complete Guide](https://www.udemy.com/vuejs-2-the-complete-guide/).
+
 You can test it on this [link](https://andre000.github.io/sotkc/)
 
 ### What it's supposed to do
