@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
-# Removed to add it on Github Pages
-#/dist
+/dist
 
 # local env files
 .env.local
