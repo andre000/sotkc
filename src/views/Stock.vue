@@ -9,8 +9,17 @@
       <vk-card v-if='!initialized'>
         <vk-card-title>Start the App</vk-card-title>
         <p> In order to use this app we need to fetch the data from the companies. </p>
-        <p> Please click in the button below to start.</p>
-        <div> <vk-button @click='startApp' type='primary'> LOAD DATA </vk-button> </div>
+        <p>
+          Please select a list of companies and click in the button below to start.
+        </p>
+
+        <select v-model='type' class="uk-select">
+          <option v-for='(option, k) in optionType' :key='k'> {{ option }} </option>
+        </select>
+        <div style="margin-top: 20px">
+          <vk-button @click='startApp' type='primary'> LOAD DATA </vk-button>
+        </div>
+
       </vk-card>
 
       <div v-else>
@@ -42,10 +51,21 @@ export default {
       this.opacity = 1;
     }
   },
-  computed: mapState([
-    'companies',
-    'initialized',
-  ]),
+  computed: {
+    type: {
+      get() {
+        return this.$store.state.type;
+      },
+      set(value) {
+        this.SET_TYPE(value);
+      },
+    },
+    ...mapState([
+      'companies',
+      'initialized',
+      'optionType',
+    ]),
+  },
   methods: {
     async startApp() {
       await this.loadCompanies();
@@ -55,11 +75,19 @@ export default {
       });
 
       await this.loadPrices();
-      this.SET_ALERT({
-        class: 'uk-alert-success',
-        message: 'All done! Starting App.',
-      });
-      this.animateLoad();
+
+      if (this.companies.length === 0) {
+        this.SET_ALERT({
+          class: 'uk-alert-warning',
+          message: 'No results found. Please try another category',
+        });
+      } else {
+        this.SET_ALERT({
+          class: 'uk-alert-success',
+          message: 'All done! Starting App.',
+        });
+        this.animateLoad();
+      }
     },
 
     animateLoad() {
@@ -76,6 +104,7 @@ export default {
 
     ...mapMutations([
       'SET_ALERT',
+      'SET_TYPE',
     ]),
   },
 };

@@ -13,6 +13,16 @@ export default new Vuex.Store({
     day: 0,
     funds: 0,
     alert: null,
+    type: 'infocus',
+    optionType: [
+      'infocus',
+      'mostactive',
+      'gainers',
+      'losers',
+      'iexvolume',
+      'iexpercent',
+    ],
+    saved: [],
   },
   mutations: {
     SET_COMPANIES(state, companies) {
@@ -56,6 +66,42 @@ export default new Vuex.Store({
         state.day += 1;
       }
     },
+    RESET_APP(state) {
+      state.initialized = false;
+      state.companies = [];
+      state.portfolio = [];
+      state.day = 0;
+      state.funds = 0;
+      state.alert = null;
+    },
+    SET_TYPE(state, type) {
+      state.type = type;
+    },
+    SAVE_STATE(state) {
+      const { saved, ...actualState } = state;
+      actualState.date = Date.now();
+      state.saved.push(actualState);
+    },
+    LOAD_STATE(state, index) {
+      const {
+        initialized,
+        companies,
+        portfolio,
+        day,
+        funds,
+        alert,
+      } = state.saved[index];
+
+      state.initialized = initialized;
+      state.companies = [...companies];
+      state.portfolio = [...portfolio];
+      state.day = day;
+      state.funds = funds;
+      state.alert = alert;
+    },
+    DELETE_SAVED_STATE(state, index) {
+      state.saved.splice(index, 1);
+    },
   },
   getters: {
     lastDay(state) {
@@ -69,19 +115,27 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async loadCompanies({ commit }) {
+    async loadCompanies({ commit, state }) {
       const companyList = await axios
-        .get('https://api.iextrading.com/1.0/stock/market/list/infocus');
+        .get(`https://api.iextrading.com/1.0/stock/market/list/${state.type}`);
+
+      if (companyList.data.length === 0) {
+        return false;
+      }
 
       const companies = companyList.data.map(d => ({
         name: d.companyName,
         symbol: d.symbol,
         logo: `https://storage.googleapis.com/iex/api/logos/${d.symbol}.png`,
       }));
-      commit('SET_COMPANIES', companies);
+      return commit('SET_COMPANIES', companies);
     },
 
     async loadPrices({ commit, state }) {
+      if (state.companies.length === 0) {
+        return false;
+      }
+
       const promisePrices = state.companies.reduce((t, d) => {
         const request = axios.get(`https://api.iextrading.com/1.0/stock/${d.symbol}/chart/1m`);
         t.push(request);
@@ -92,12 +146,12 @@ export default new Vuex.Store({
 
       const updatedCompanies = state.companies.map((d, i) => {
         const { data } = prices[i];
-        d.prices = data.map(p => p.close);
+        d.prices = data.map(p => Number(p.close).toFixed(2));
         return d;
       });
 
       commit('SET_COMPANIES', updatedCompanies);
-      commit('START_APP');
+      return commit('START_APP');
     },
   },
 });

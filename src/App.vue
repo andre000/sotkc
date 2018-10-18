@@ -6,7 +6,7 @@
 
       <template slot='right'>
         <router-link tag='li' to='EndDay'><a>End Day</a></router-link>
-        <vk-navbar-nav-item title="Save & Load"></vk-navbar-nav-item>
+        <router-link tag='li' to='SaveLoad'><a>Save & Load</a></router-link>
       </template>
     </st-navbar>
 
@@ -129,6 +129,9 @@ export default {
   }
   .uk-button-secondary {
     background: #0096f4;
+  }
+  .uk-button-secondary:focus, .uk-button-secondary:hover {
+    background: #0e68a0;
   }
 
   .st-alert {

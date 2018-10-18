@@ -13,7 +13,9 @@
     </div>
 
     <div class='price'>
-      <p style="display: inline;font-size: 14px;"> Current Price: {{ companies[index].prices[day] | currency }} </p>
+      <p style="display: inline;font-size: 14px;">
+        Current Price: {{ companies[index].prices[day] | currency }}
+      </p>
       <stCompanyHistory class='reduced' :company='companies[index]'></stCompanyHistory>
     </div>
 

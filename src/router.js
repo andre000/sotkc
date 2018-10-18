@@ -29,6 +29,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "day" */ './views/Day.vue'),
     },
     {
+      path: '/SaveLoad',
+      name: 'save',
+      component: () => import(/* webpackChunkName: "save" */ './views/SaveLoad.vue'),
+    },
+    {
       path: '*',
       name: 'not_found',
       component: () => import(/* webpackChunkName: "404" */ './views/404.vue'),
