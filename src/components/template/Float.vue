@@ -1,5 +1,5 @@
 <template>
-  <vk-card class='st-float'>
+  <vk-card @touchstart='handleTouch' :class='{active}' class='st-float'>
     <ul class="uk-list">
       <li><b>Funds:</b> {{ funds | currency }}</li>
       <li><b>Day:</b> {{ day }}</li>
@@ -16,6 +16,9 @@
 import { mapState, mapGetters, mapMutations } from 'vuex';
 
 export default {
+  data: () => ({
+    active: false,
+  }),
   computed: {
     ...mapState([
       'funds',
@@ -37,6 +40,10 @@ export default {
     ...mapMutations([
       'INCREMENT_DAY',
     ]),
+
+    handleTouch() {
+      this.active = !this.active;
+    },
   },
 };
 </script>
@@ -48,6 +55,18 @@ export default {
     font-size: 12px;
     bottom: 5vh;
   }
+
+  @media screen and (max-width: 426px) {
+    .st-float {
+      bottom: 10%;
+      left: -33%;
+      transition: all .20s ease-in-out;
+    }
+    .st-float.active {
+      left: 0%;
+    }
+  }
+
   .st-float .uk-card-body {
     padding: 15px;
   }
